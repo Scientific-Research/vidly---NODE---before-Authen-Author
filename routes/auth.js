@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 const _ = require("lodash");
 const { User } = require("../models/user");
@@ -23,7 +24,10 @@ router.post("/", async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(400).send("Invalid email or password");
 
-  res.send(true);
+  const token = jwt.sign({ _id: user._id }, "jwtPrivateKey");
+  // res.send(true);
+  res.send(token);
+
   // using lodash to avoid repeating the req.body again and again and again as below:
   // user = new User(_.pick(req.body, ["name", "email", "password"]));
   // const salt = await bcrypt.genSalt(10);
