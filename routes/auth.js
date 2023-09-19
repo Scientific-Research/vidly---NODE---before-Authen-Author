@@ -24,6 +24,8 @@ router.post("/", async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(400).send("Invalid email or password");
 
+  // just give the generated Token in Postmann or broweser in jwt.io website to show us all the information
+  // related to the user such as: id, name, email, password which are as following:
   const token = jwt.sign(
     {
       _id: user._id,
