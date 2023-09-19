@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 1024,
   },
+  isAdmin: Boolean,
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -34,6 +35,7 @@ userSchema.methods.generateAuthToken = function () {
       name: this.name,
       email: this.email,
       password: this.password,
+      isAdmin: this.isAdmin,
     },
     // "jwtPrivateKey"
     config.get("jwtPrivateKey")
