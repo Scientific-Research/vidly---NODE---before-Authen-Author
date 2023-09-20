@@ -17,12 +17,14 @@ const express = require("express");
 const app = express();
 
 process.on("uncaughtException", (ex) => {
-  console.log("WE GOT AN UNCAUGHT EXCEPTION");
+  // console.log("WE GOT AN UNCAUGHT EXCEPTION");
   winston.error(ex.message, ex);
+  process.exit(1); // zero means success, anything else: Failure
 });
 process.on("unhandledRejection", (ex) => {
-  console.log("WE GOT AN UNHANDLED REJECTION");
+  // console.log("WE GOT AN UNHANDLED REJECTION");
   winston.error(ex.message, ex);
+  process.exit(1); // it would be better to exit the node process when we have an error!
 });
 // Add a console transport
 // winston.add(new winston.transports.Console());
