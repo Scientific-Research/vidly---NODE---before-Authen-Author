@@ -16,15 +16,22 @@ const auth = require("./routes/auth");
 const express = require("express");
 const app = express();
 
-process.on("uncaughtException", (ex) => {
-  // console.log("WE GOT AN UNCAUGHT EXCEPTION");
-  winston.error(ex.message, ex);
-  process.exit(1); // zero means success, anything else: Failure
-});
+// process.on("uncaughtException", (ex) => {
+//   // console.log("WE GOT AN UNCAUGHT EXCEPTION");
+//   winston.error(ex.message, ex);
+//   process.exit(1); // zero means success, anything else: Failure
+// });
+
+// is the same like above but from winston
+winston.handleExceptions(
+  new winston.transports.File({ filename: "uncaughtExceptions.log" })
+);
+
 process.on("unhandledRejection", (ex) => {
   // console.log("WE GOT AN UNHANDLED REJECTION");
-  winston.error(ex.message, ex);
-  process.exit(1); // it would be better to exit the node process when we have an error!
+  // winston.error(ex.message, ex);
+  // process.exit(1); // it would be better to exit the node process when we have an error!
+  throw ex;
 });
 // Add a console transport
 // winston.add(new winston.transports.Console());
@@ -68,9 +75,12 @@ winston.add(
   })
 );
 
-// throw new Error("Something failed during startup!");
-const p = Promise.reject(new Error("Something failed miserably!"));
-p.then(() => console.log("Done"));
+// Error simulation for UNCAUGHT EXCEPTION
+//throw new Error("Something failed during startup!");
+
+// Error simulation for UNHANDLED REJECTION
+// const p = Promise.reject(new Error("Something failed miserably!"));
+// p.then(() => console.log("Done"));
 
 // const url = "mongodb://127.0.0.1/vidly";
 // const client = new MongoClient(url, { useUnifiedTopology: true });
