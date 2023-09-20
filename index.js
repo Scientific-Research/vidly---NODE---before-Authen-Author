@@ -1,6 +1,7 @@
 require("express-async-errors");
 const winston = require("winston");
 require("winston-mongodb");
+// const MongoClient = require("mongodb").MongoClient;
 const error = require("./middleware/error");
 const config = require("config");
 const Joi = require("joi");
@@ -49,7 +50,16 @@ winston.add(
 );
 
 // Add a file transport to MongoDB => to log messages to a MongoDB datbase.
-winston.add(new winston.transports.MongoDB({ db: "mongodb://127.0.0.1/vidly" }));
+winston.add(
+  new winston.transports.MongoDB({
+    db: "mongodb://127.0.0.1/vidly",
+    // level: "error",
+    level: "info", // this lines publishes error,warn and info in log Document in MongoDB Compass
+  })
+);
+// const url = "mongodb://127.0.0.1/vidly";
+// const client = new MongoClient(url, { useUnifiedTopology: true });
+// client.connect();
 
 if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined!");
