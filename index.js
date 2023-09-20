@@ -15,10 +15,37 @@ const express = require("express");
 const app = express();
 
 // Add a console transport
-winston.add(new winston.transports.Console());
+// winston.add(new winston.transports.Console());
 
-// Add a file transport
-winston.add(new winston.transports.File({ filename: "logfile.log" }));
+// Add a console transport
+winston.add(
+  new winston.transports.Console({
+    format: winston.format.combine(
+      winston.format.colorize({ all: true }),
+      winston.format.timestamp(),
+      winston.format.printf((info) => {
+        return `timestamp: ${info.timestamp}, level: ${info.level}, message: ${info.message}`;
+      })
+    ),
+  })
+);
+
+// // Add a file transport
+// winston.add(new winston.transports.File({ filename: "logfile.log" }));
+
+// Add a file transport with a custom format
+winston.add(
+  new winston.transports.File({
+    filename: "logfile.log",
+    format: winston.format.combine(
+      // winston.format.colorize({ all: true }),
+      winston.format.timestamp(),
+      winston.format.printf((info) => {
+        return `timestamp: ${info.timestamp}, level: ${info.level}, message: ${info.message}`;
+      })
+    ),
+  })
+);
 
 if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined!");
