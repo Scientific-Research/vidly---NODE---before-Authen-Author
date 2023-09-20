@@ -16,6 +16,10 @@ const auth = require("./routes/auth");
 const express = require("express");
 const app = express();
 
+process.on("uncaughtException", (ex) => {
+  console.log("WE GOT AN UNCAUGHT EXCEPTION");
+  winston.error(ex.message, ex);
+});
 // Add a console transport
 // winston.add(new winston.transports.Console());
 
@@ -57,6 +61,8 @@ winston.add(
     level: "info", // this lines publishes error,warn and info in log Document in MongoDB Compass
   })
 );
+
+throw new Error("Something failed during startup!");
 // const url = "mongodb://127.0.0.1/vidly";
 // const client = new MongoClient(url, { useUnifiedTopology: true });
 // client.connect();
