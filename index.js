@@ -62,7 +62,10 @@ winston.add(
   })
 );
 
-throw new Error("Something failed during startup!");
+// throw new Error("Something failed during startup!");
+const p = Promise.reject(new Error("Something failed miserably!"));
+p.then(() => console.log("Done"));
+
 // const url = "mongodb://127.0.0.1/vidly";
 // const client = new MongoClient(url, { useUnifiedTopology: true });
 // client.connect();
