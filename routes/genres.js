@@ -7,6 +7,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
+  throw new Error("Could not get the genres!");
   // we moved this try catch to the above asyncMiddleware function
   // try {
   const genres = await Genre.find().sort("name");
