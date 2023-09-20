@@ -20,6 +20,10 @@ process.on("uncaughtException", (ex) => {
   console.log("WE GOT AN UNCAUGHT EXCEPTION");
   winston.error(ex.message, ex);
 });
+process.on("unhandledRejection", (ex) => {
+  console.log("WE GOT AN UNHANDLED REJECTION");
+  winston.error(ex.message, ex);
+});
 // Add a console transport
 // winston.add(new winston.transports.Console());
 
