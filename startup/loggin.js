@@ -63,6 +63,7 @@ module.exports = function () {
   winston.add(
     new winston.transports.MongoDB({
       db: "mongodb://127.0.0.1/vidly",
+      options: { useUnifiedTopology: true }, // to remove the deprecation warning message after two hours serach in Stackoverflow.
       // level: "error",
       level: "info", // this lines publishes error,warn and info in log Document in MongoDB Compass
     })
