@@ -1,7 +1,7 @@
 require("express-async-errors");
 const winston = require("winston");
 require("winston-mongodb");
-// const MongoClient = require("mongodb").MongoClient;
+// const MongoClient  = require("mongodb").MongoClient;
 const config = require("config");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
@@ -9,7 +9,7 @@ const express = require("express");
 const app = express();
 
 require("./startup/routes")(app);
-require("./db/db")();
+require("./startup/db")(); // call the db.js inside the index.js
 
 // process.on("uncaughtException", (ex) => {
 //   // console.log("WE GOT AN UNCAUGHT EXCEPTION");
@@ -18,9 +18,15 @@ require("./db/db")();
 // });
 
 // is the same like above but from winston
-winston.handleExceptions(
+// winston.handleExceptions( // this is deprecated in Winston@4
+winston.exceptions.handle(
   new winston.transports.File({ filename: "uncaughtExceptions.log" })
 );
+
+// Update MongoClient configuration
+// const client = new MongoClient("mongodb://127.0.0.1/vidly", {
+//   useUnifiedTopology: true,
+// });
 
 process.on("unhandledRejection", (ex) => {
   // console.log("WE GOT AN UNHANDLED REJECTION");
