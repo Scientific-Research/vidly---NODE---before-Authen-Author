@@ -34,6 +34,7 @@ module.exports = function () {
     new winston.transports.Console({
       format: winston.format.combine(
         winston.format.colorize({ all: true }),
+        winston.format.prettyPrint({ all: true }),
         winston.format.timestamp(),
         winston.format.printf((info) => {
           return `timestamp: ${info.timestamp}, level: ${info.level}, message: ${info.message}`;
