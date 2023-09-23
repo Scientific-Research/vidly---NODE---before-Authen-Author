@@ -26,7 +26,7 @@ describe("generateAuthToken", () => {
   it("should return a valid jwt webtoken", () => {
     const payload = {
       // _id: 1,
-      _id: new mongoose.Types.ObjectId(),
+      _id: new mongoose.Types.ObjectId().toHexString(),
       name: "test",
       email: "test@example.com",
       password: "password123",
