@@ -3,14 +3,15 @@ const winston = require("winston");
 const config = require("config");
 
 module.exports = function () {
+  const db = config.get("db");
   mongoose
-    .connect(config.get("db"), {
+    .connect(db, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
     })
     // .then(() => console.log("Connected to MongoDB..."))
-    .then(() => winston.info("Connected to MongoDB..."));
+    .then(() => winston.info(`Connected to ${db}...`));
 
   // .catch((err) => console.error("Could not connect to MongoDB..."));
 };
