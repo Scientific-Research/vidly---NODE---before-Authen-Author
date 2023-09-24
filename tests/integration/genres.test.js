@@ -1,5 +1,7 @@
 const request = require("supertest");
 const { Genre } = require("../../models/genre");
+const { User } = require("../../models/user");
+
 let server;
 
 describe("/api/genres", () => {
@@ -59,11 +61,25 @@ describe("/api/genres", () => {
   });
 
   describe("POST /", () => {
+    // first test : client is not logged in
     it("should retuen 401 if client is not logged in", async () => {
       const res = await request(server).post("/api/genres").send({
         name: "genre1",
       });
       expect(res.status).toBe(401);
+    });
+    // second test : client is logged in, but send a genre less than 5 Characters(an invalid character)
+    // first we need to logg in, we need to generate an Authentication Token and include that Token in this request(in the header).
+    it("should return 400 if genre is less than 5 characters.", async () => {
+      const token = new User().generateAuthToken();
+
+      const res = await request(server)
+        .post("/api/genres")
+        .set("x-auth-token", token)
+        .send({
+          name: "1234",
+        });
+      expect(res.status).toBe(400);
     });
   });
 });
