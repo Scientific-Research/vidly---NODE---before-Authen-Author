@@ -1,6 +1,5 @@
 const request = require("supertest");
 const { Genre } = require("../../models/genre");
-// const mongoose = require("mongoose");
 let server;
 
 describe("/api/genres", () => {
@@ -29,7 +28,6 @@ describe("/api/genres", () => {
     ///////////////////////////////////////////////////////////////////////////////!first Integration Test
     it("should return a genre if valid id is passed", async () => {
       const genre = new Genre({
-        // _id: new mongoose.Types.ObjectId().toHexString(),
         name: "genre1",
       });
       await genre.save();
@@ -40,5 +38,23 @@ describe("/api/genres", () => {
       expect(res.body).toHaveProperty("name", genre.name);
     });
     //////////////////////////////////////////////////////////////////////////////////////!first Integration Test
+    //////////////////////////////////////////////////////////////////////////////////////!second Integration Test
+    it("should return 404 if invalid id is passedd! ", async () => {
+      // const genre = new Genre({
+      //   name: "genre1",
+      // });
+      // await genre.save();
+
+      // const res = await request(server).get("/api/genres/" + genre._id);
+      // we give the id=1 deliberately!
+      const res = await request(server).get("/api/genres/1");
+      // if (!res) {
+      expect(res.status).toBe(404);
+      // expect(() => {
+      //   lib.registerUser(a);
+      // }).toThrow("The genre with the given ID was not found.");
+      //}
+    });
+    //////////////////////////////////////////////////////////////////////////////////////!second Integration Test
   });
 });
