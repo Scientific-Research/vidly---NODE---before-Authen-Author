@@ -57,4 +57,13 @@ describe("/api/genres", () => {
     });
     //////////////////////////////////////////////////////////////////////////////////////!second Integration Test
   });
+
+  describe("POST /", () => {
+    it("should retuen 401 if client is not logged in", async () => {
+      const res = await request(server).post("/api/genres").send({
+        name: "genre1",
+      });
+      expect(res.status).toBe(401);
+    });
+  });
 });
