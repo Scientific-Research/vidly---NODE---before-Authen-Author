@@ -81,5 +81,19 @@ describe("/api/genres", () => {
         });
       expect(res.status).toBe(400);
     });
+    it("should return 400 if genre is more than 50 characters.", async () => {
+      const token = new User().generateAuthToken();
+
+      // to create more than 50 characters => 51 here => we do as following:
+      const nameMoreThan50Characters = new Array(52).join("a");
+      const res = await request(server)
+        .post("/api/genres")
+        .set("x-auth-token", token)
+        .send({
+          // name: "1234oiuefiouweioruijs",
+          name: nameMoreThan50Characters,
+        });
+      expect(res.status).toBe(400);
+    });
   });
 });
