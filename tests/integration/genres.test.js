@@ -144,14 +144,15 @@ describe("/api/genres", () => {
 
     // fourth test: should return the Genre if it is valid!
     it("should return the genre if it is valid.", async () => {
-      const token = new User().generateAuthToken();
+      // const token = new User().generateAuthToken();
 
-      const res = await request(server)
-        .post("/api/genres")
-        .set("x-auth-token", token)
-        .send({
-          name: "genre1",
-        });
+      // const res = await request(server)
+      //   .post("/api/genres")
+      //   .set("x-auth-token", token)
+      //   .send({
+      //     name: "genre1",
+      //   });
+      const res = await exec();
 
       expect(res.body).toHaveProperty("_id");
       expect(res.body).toHaveProperty("name", "genre1");
