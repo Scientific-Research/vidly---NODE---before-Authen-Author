@@ -66,6 +66,7 @@ describe("/api/genres", () => {
     let name;
     let token;
 
+    // This is our happy path:
     const exec = async () => {
       return await request(server)
         .post("/api/genres")
@@ -80,7 +81,8 @@ describe("/api/genres", () => {
           name,
         });
     };
-
+    // and then, define a beforeEach() and when it 's needed, we will modify one of these two parameters
+    // in every of our tests accordingly
     beforeEach(() => {
       token = new User().generateAuthToken();
       name = "genre1";
