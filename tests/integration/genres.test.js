@@ -1,6 +1,7 @@
 const request = require("supertest");
 const { Genre } = require("../../models/genre");
 const { User } = require("../../models/user");
+const mongoose = require("mongoose");
 
 let server;
 
@@ -50,6 +51,24 @@ describe("/api/genres", () => {
       // const res = await request(server).get("/api/genres/" + genre._id);
       // we give the id=1 deliberately!
       const res = await request(server).get("/api/genres/1");
+      // if (!res) {
+      expect(res.status).toBe(404);
+      // expect(() => {
+      //   lib.registerUser(a);
+      // }).toThrow("The genre with the given ID was not found.");
+      //}
+    });
+
+    it("should return 404 if no genre with the given ID exists! ", async () => {
+      // const genre = new Genre({
+      //   name: "genre1",
+      // });
+      // await genre.save();
+
+      // const res = await request(server).get("/api/genres/" + genre._id);
+      // we give the id=1 deliberately!
+      const id = mongoose.Types.ObjectId();
+      const res = await request(server).get("/api/genres/" + id);
       // if (!res) {
       expect(res.status).toBe(404);
       // expect(() => {
