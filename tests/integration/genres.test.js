@@ -206,9 +206,19 @@ describe("/api/genres", () => {
       genre = new Genre({ name: "genre1" });
       await genre.save();
 
+      // and only authorized people can update a genre!
       token = new User().generateAuthToken();
       id = genre._id;
+      // update the name from genre1 to updatedName
       newName = "updatedName";
+    });
+
+    it("should return 401 if client is not logged in", async () => {
+      token = "";
+
+      const res = await exec();
+
+      expect(res.status).toBe(401);
     });
 
     it("should return 400 if genre is less than 5 characters.", async () => {
