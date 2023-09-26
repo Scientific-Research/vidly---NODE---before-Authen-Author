@@ -200,6 +200,17 @@ describe("/api/genres", () => {
         .send({ name: newName });
     };
 
+    beforeEach(async () => {
+      // Before each test we need to create a genre and
+      // put it in the database.
+      genre = new Genre({ name: "genre1" });
+      await genre.save();
+
+      token = new User().generateAuthToken();
+      id = genre._id;
+      newName = "updatedName";
+    });
+
     it("should return 400 if genre is less than 5 characters.", async () => {
       // const token = new User().generateAuthToken();
 
