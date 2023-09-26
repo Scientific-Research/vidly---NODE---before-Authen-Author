@@ -293,20 +293,11 @@ describe("/api/genres", () => {
       //}
     });
 
-    it("should return a genre if valid id is passed", async () => {
-      const genre = new Genre({
-        name: "genre1",
-      });
-      await genre.save();
+    it("should return the updated genre if it is valid", async () => {
+      const res = await exec();
 
-      const res = await request(server).get("/api/genres/" + genre._id);
-
-      name = "genre2";
-      res = await request(server).put("/api/genres/" + genre._id);
-
-      expect(res.status).toBe(200);
-      // expect(res.body).toMatchObject(genre);
-      expect(res.body).toHaveProperty("name", genre.name);
+      expect(res.body).toHaveProperty("_id");
+      expect(res.body).toHaveProperty("name", newName);
     });
   });
 
