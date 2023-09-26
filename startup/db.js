@@ -9,6 +9,7 @@ module.exports = function () {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
+      useFindAndModify: false,
     })
     // .then(() => console.log("Connected to MongoDB..."))
     .then(() => winston.info(`Connected to ${db}...`));
