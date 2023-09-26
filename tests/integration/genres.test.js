@@ -255,6 +255,24 @@ describe("/api/genres", () => {
       expect(res.status).toBe(400);
     });
 
+    it("should return 404 if invalid id is passed! ", async () => {
+      // const genre = new Genre({
+      //   name: "genre1",
+      // });
+      // await genre.save();
+
+      // const res = await request(server).get("/api/genres/" + genre._id);
+      // we give the id=1 deliberately!
+      // const res = await request(server).put("/api/genres/1");
+      // if (!res) {
+      id = 1;
+      const res = await exec();
+      expect(res.status).toBe(404);
+      // expect(() => {
+      //   lib.registerUser(a);
+      // }).toThrow("The genre with the given ID was not found.");
+      //}
+    });
     ///////////////////////////////////////////////////////////////////////////////!first Integration Test
     it("should return a genre if valid id is passed", async () => {
       const genre = new Genre({
@@ -273,22 +291,6 @@ describe("/api/genres", () => {
     });
     //////////////////////////////////////////////////////////////////////////////////////!first Integration Test
     //////////////////////////////////////////////////////////////////////////////////////!second Integration Test
-    it("should return 404 if invalid id is passedd! ", async () => {
-      // const genre = new Genre({
-      //   name: "genre1",
-      // });
-      // await genre.save();
-
-      // const res = await request(server).get("/api/genres/" + genre._id);
-      // we give the id=1 deliberately!
-      const res = await request(server).put("/api/genres/1");
-      // if (!res) {
-      expect(res.status).toBe(404);
-      // expect(() => {
-      //   lib.registerUser(a);
-      // }).toThrow("The genre with the given ID was not found.");
-      //}
-    });
 
     it("should return 404 if no genre with the given ID exists! ", async () => {
       // const genre = new Genre({
