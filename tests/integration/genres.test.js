@@ -236,6 +236,7 @@ describe("/api/genres", () => {
       const res = await exec();
       expect(res.status).toBe(400);
     });
+
     it("should return 400 if genre is more than 50 characters.", async () => {
       // const token = new User().generateAuthToken();
 
