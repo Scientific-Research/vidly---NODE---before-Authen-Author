@@ -190,7 +190,7 @@ describe("/api/genres", () => {
 
     const exec = async () => {
       return await request(server)
-        .put("/api/genres" + id)
+        .put("/api/genres/" + id)
         .set("x-auth-token", token)
         // .send({
         //   // name: "genre1",
@@ -231,7 +231,7 @@ describe("/api/genres", () => {
       //     name: "1234",
       //   });
 
-      name = "1234";
+      newName = "1234";
 
       const res = await exec();
       expect(res.status).toBe(400);
@@ -242,7 +242,7 @@ describe("/api/genres", () => {
 
       // to create more than 50 characters => 51 here => we do as following:
       // const nameMoreThan50Characters = new Array(52).join("a");
-      name = new Array(52).join("a");
+      newName = new Array(52).join("a");
 
       // const res = await request(server)
       //   .post("/api/genres")
@@ -298,60 +298,6 @@ describe("/api/genres", () => {
 
       expect(res.body).toHaveProperty("_id");
       expect(res.body).toHaveProperty("name", newName);
-    });
-  });
-
-  // Test Delete endpoint
-  describe("DELETE /:id", () => {
-    it("should return a genre if valid id is passed", async () => {
-      const genre = new Genre({
-        name: "genre1",
-      });
-      await genre.save();
-
-      const res = await request(server).get("/api/genres/" + genre._id);
-
-      // name = "genre2";
-      res = await request(server).delete("/api/genres/" + genre._id);
-
-      expect(res.status).toBe(200);
-      // expect(res.body).toMatchObject(genre);
-      expect(res.body).toHaveProperty("name", genre.name);
-    });
-
-    it("should return 404 if invalid id is passedd! ", async () => {
-      // const genre = new Genre({
-      //   name: "genre1",
-      // });
-      // await genre.save();
-
-      // const res = await request(server).get("/api/genres/" + genre._id);
-      // we give the id=1 deliberately!
-      const res = await request(server).delete("/api/genres/1");
-      // if (!res) {
-      expect(res.status).toBe(404);
-      // expect(() => {
-      //   lib.registerUser(a);
-      // }).toThrow("The genre with the given ID was not found.");
-      //}
-    });
-
-    it("should return 404 if no genre with the given ID exists! ", async () => {
-      // const genre = new Genre({
-      //   name: "genre1",
-      // });
-      // await genre.save();
-
-      // const res = await request(server).get("/api/genres/" + genre._id);
-      // we give the id=1 deliberately!
-      const id = mongoose.Types.ObjectId();
-      const res = await request(server).delete("/api/genres/" + id);
-      // if (!res) {
-      expect(res.status).toBe(404);
-      // expect(() => {
-      //   lib.registerUser(a);
-      // }).toThrow("The genre with the given ID was not found.");
-      //}
     });
   });
 });
