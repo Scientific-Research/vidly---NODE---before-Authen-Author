@@ -16,7 +16,7 @@ describe("/api/returns", () => {
   const exec = async () => {
     return await request(server)
       .post("/api/returns")
-    //   .set("x-auth-token", token)
+      //   .set("x-auth-token", token)
       //   .send({ customerId: customerId, movieId: movieId });
       // both the key and value are the same, therfore, we can write only one of them.
       .send({ customerId, movieId });
@@ -47,11 +47,11 @@ describe("/api/returns", () => {
   });
 
   afterEach(async () => {
-    server.close();
     // await Genre.deleteMany({});
     // and finally we have to clean up in the afterEach() as following:
     // await Rental.remove({});
     await Rental.deleteMany({});
+    await server.close();
   });
 
   // and now let us to test it using a simple test:

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose --coverage --forceExit --detectOpenHandles --watchAll --maxWorkers=1"
+    "test": "jest --verbose --coverage --detectOpenHandles --watchAll"
   },
   "keywords": [],
   "author": "",
