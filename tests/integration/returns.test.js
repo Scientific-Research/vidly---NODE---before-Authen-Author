@@ -36,5 +36,7 @@ describe("/api/returns", () => {
   afterEach(async () => {
     server.close();
     // await Genre.deleteMany({});
+    // and finally we have to clean up in the afterEach() as following:
+    await Rental.remove({});
   });
 });
