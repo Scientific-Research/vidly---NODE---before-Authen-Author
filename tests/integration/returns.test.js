@@ -39,4 +39,11 @@ describe("/api/returns", () => {
     // and finally we have to clean up in the afterEach() as following:
     await Rental.remove({});
   });
+
+  // and now let us to test it using a simple test:
+  items("should work", () => {
+    // at this test, i simply take a look at the database, whether this rental is there or not? if is it there
+    // it means our setup code is working:
+    Rental.findById();
+  });
 });
