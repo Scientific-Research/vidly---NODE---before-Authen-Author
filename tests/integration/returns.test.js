@@ -20,7 +20,7 @@ describe("/api/returns", () => {
       .set("x-auth-token", token)
       //   .send({ customerId: customerId, movieId: movieId });
       // both the key and value are the same, therfore, we can write only one of them.
-      .send({ customerId: customerId, movieId });
+      .send({ customerId: customerId, movieId: movieId });
   };
 
   beforeEach(async () => {
@@ -73,12 +73,23 @@ describe("/api/returns", () => {
     expect(res.status).toBe(401);
   });
 
-  // return  400 if customerId is not provided!
+  // return 400 if customerId is not provided!
   it("should return 400 if customerId is not provided", async () => {
     // token = "";
     // const token = new User().generateAuthToken();
     token = new User().generateAuthToken();
     customerId = "";
+    const res = await exec();
+
+    expect(res.status).toBe(400);
+  });
+
+  // return 400 if movieId is not provided!
+  it("should return 400 if movieId is not provided", async () => {
+    // token = "";
+    // const token = new User().generateAuthToken();
+    token = new User().generateAuthToken();
+    movieId = "";
     const res = await exec();
 
     expect(res.status).toBe(400);
