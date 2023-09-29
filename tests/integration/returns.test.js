@@ -1,6 +1,7 @@
 // like always we start with Test Suits => describe()
 const request = require("supertest");
 const { Rental } = require("../../models/rental");
+const { User } = require("../../models/user");
 
 const mongoose = require("mongoose");
 
@@ -11,15 +12,15 @@ describe("/api/returns", () => {
   let rental;
 
   let token;
-  let name;
+  //   let name;
 
   const exec = async () => {
     return await request(server)
       .post("/api/returns")
-      //   .set("x-auth-token", token)
+      .set("x-auth-token", token)
       //   .send({ customerId: customerId, movieId: movieId });
       // both the key and value are the same, therfore, we can write only one of them.
-      .send({ customerId, movieId });
+      .send({ customerId: customerId, movieId });
   };
 
   beforeEach(async () => {
@@ -31,7 +32,7 @@ describe("/api/returns", () => {
     rental = new Rental({
       // two properties
       customer: {
-        _Id: customerId,
+        _id: customerId,
         name: "12345", // name has to have at least 5 characters. minlength:5 and maxlength: 50
         phone: "12345", // phone has to have at least 5 characters. minlength:5 and maxlength: 50
       },
@@ -63,11 +64,23 @@ describe("/api/returns", () => {
     console.log(result);
   });
 
+  // Return 401 if client is not logged in!
   it("should return 401 if client is not logged in", async () => {
-    // token = "";
+    token = "";
 
     const res = await exec();
 
     expect(res.status).toBe(401);
+  });
+
+  // return  400 if customerId is not provided!
+  it("should return 400 if customerId is not provided", async () => {
+    // token = "";
+    // const token = new User().generateAuthToken();
+    token = new User().generateAuthToken();
+    customerId = "";
+    const res = await exec();
+
+    expect(res.status).toBe(400);
   });
 });
