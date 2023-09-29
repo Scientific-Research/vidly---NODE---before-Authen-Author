@@ -38,14 +38,16 @@ describe("/api/returns", () => {
     server.close();
     // await Genre.deleteMany({});
     // and finally we have to clean up in the afterEach() as following:
-    await Rental.remove({});
+    // await Rental.remove({});
+    await Rental.deleteMany({});
   });
 
   // and now let us to test it using a simple test:
-  items("should work", async () => {
+  it("should work", async () => {
     // at this test, i simply take a look at the database, whether this rental is there or not? if is it there
     // it means our setup code is working:
-    const result = await Rental.findById(rental._Id);
+    const result = await Rental.findById(rental._id);
     expect(result).not.toBeNull();
+    console.log(result);
   });
 });
