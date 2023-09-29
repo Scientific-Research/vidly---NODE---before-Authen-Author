@@ -8,6 +8,7 @@ describe("/api/returns", () => {
   let server;
   let customerId;
   let movieId;
+  let rental;
 
   beforeEach(async () => {
     server = require("../../index");
@@ -15,7 +16,7 @@ describe("/api/returns", () => {
     customerId = mongoose.Types.ObjectId();
     movieId = mongoose.Types.ObjectId();
 
-    const rental = new Rental({
+    rental = new Rental({
       // two properties
       customer: {
         _Id: customerId,
@@ -41,9 +42,10 @@ describe("/api/returns", () => {
   });
 
   // and now let us to test it using a simple test:
-  items("should work", () => {
+  items("should work", async () => {
     // at this test, i simply take a look at the database, whether this rental is there or not? if is it there
     // it means our setup code is working:
-    Rental.findById();
+    const result = await Rental.findById(rental._Id);
+    expect(result).not.toBeNull();
   });
 });
