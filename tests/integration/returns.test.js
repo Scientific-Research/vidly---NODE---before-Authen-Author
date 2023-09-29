@@ -9,7 +9,7 @@ describe("/api/returns", () => {
   let customerId;
   let movieId;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     server = require("../../index");
 
     customerId = mongoose.Types.ObjectId();
@@ -28,6 +28,9 @@ describe("/api/returns", () => {
         dailyRentalRate: 2,
       },
     });
+
+    // Save our rental object to the DataBase!
+    await rental.save();
   });
 
   afterEach(async () => {
