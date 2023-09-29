@@ -1,6 +1,6 @@
 // like always we start with Test Suits => describe()
+const request = require("supertest");
 const { Rental } = require("../../models/rental");
-const { Movie } = require("../../models/movie");
 
 const mongoose = require("mongoose");
 
@@ -9,6 +9,18 @@ describe("/api/returns", () => {
   let customerId;
   let movieId;
   let rental;
+
+  let token;
+  let name;
+
+  const exec = async () => {
+    return await request(server)
+      .post("/api/returns")
+    //   .set("x-auth-token", token)
+      //   .send({ customerId: customerId, movieId: movieId });
+      // both the key and value are the same, therfore, we can write only one of them.
+      .send({ customerId, movieId });
+  };
 
   beforeEach(async () => {
     server = require("../../index");
@@ -49,5 +61,13 @@ describe("/api/returns", () => {
     const result = await Rental.findById(rental._id);
     expect(result).not.toBeNull();
     console.log(result);
+  });
+
+  it("should return 401 if client is not logged in", async () => {
+    // token = "";
+
+    const res = await exec();
+
+    expect(res.status).toBe(401);
   });
 });
