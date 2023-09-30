@@ -139,6 +139,13 @@ describe("/api/returns", () => {
     const rentalInDb = await Rental.findById(rental._id);
     console.log(rentalInDb);
 
-    expect(rentalInDb.dateReturned).toBeDefined();
+    // to optimize the code and make it more specific, we have to define it more specific, therefore,
+    // instead of 1 in   rental.dateReturned = 1; in return.js, we write the current date
+    // but at the end there is a difference between dateReturned and current date, and we have to
+    // calculate it and make sure that the diff is less than 10 seconds in the worst scenario.
+    // new Date() is current date!
+    const diff = new Date() - rentalInDb.dateReturned; // this gives us the difference in miliseconds
+    // expect(rentalInDb.dateReturned).toBeDefined();
+    expect(diff).toBeLessThan(10 * 1000); // diff less than 10 seconds!
   });
 });

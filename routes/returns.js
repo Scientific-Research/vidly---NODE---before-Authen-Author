@@ -35,7 +35,9 @@ router.post("/", auth, async (req, res) => {
     return res.status(400).send("Return already processed!");
 
   // set the returnDate if input is valid
-  rental.dateReturned = 1;
+  //   rental.dateReturned = 1;
+  // instead of 1, we write the current date
+  rental.dateReturned = new Date();
   await rental.save();
 
   // Return 200 if valid request
