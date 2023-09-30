@@ -1,10 +1,11 @@
 const { Rental } = require("../models/rental");
+const auth = require("../middleware/auth");
 const express = require("express");
 const router = express.Router();
 // const { Customer } = require("../models/customer");
 
 // app.post("/api/returns",async(req,res)=>{})
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   //   const customer = await Customer.findById(req.body.customerId);
   //   if (!customer) return res.status(400).send("Invalid customer.");
 
@@ -33,7 +34,10 @@ router.post("/", async (req, res) => {
   if (rental.dateReturned)
     return res.status(400).send("Return already processed!");
 
-  return res.status(401).send("Unauthorized User!");
+  // Return 200 if valid request
+  if (rental) return res.status(200).send("the request is valid!");
+
+  //  return res.status(401).send("Unauthorized User!");
 });
 
 module.exports = router;

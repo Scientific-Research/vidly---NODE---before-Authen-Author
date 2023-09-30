@@ -122,7 +122,7 @@ describe("/api/returns", () => {
   });
 
   // Return 200 if valid request
-  it("should return 200 if valid request", async () => {
+  it("should return 200 if we have a valid request", async () => {
     // rental.dateReturned = new Date();
     // await rental.save();
 
