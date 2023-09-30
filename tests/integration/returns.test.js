@@ -14,6 +14,7 @@ describe("/api/returns", () => {
   let token;
   //   let name;
 
+  // defining the happy path from MH:
   const exec = async () => {
     return await request(server)
       .post("/api/returns")
@@ -28,6 +29,7 @@ describe("/api/returns", () => {
 
     customerId = mongoose.Types.ObjectId();
     movieId = mongoose.Types.ObjectId();
+    token = new User().generateAuthToken();
 
     rental = new Rental({
       // two properties
@@ -77,8 +79,9 @@ describe("/api/returns", () => {
   it("should return 400 if customerId is not provided", async () => {
     // token = "";
     // const token = new User().generateAuthToken();
-    token = new User().generateAuthToken();
     customerId = "";
+    // or
+    // delete payload.customerId;
     const res = await exec();
 
     expect(res.status).toBe(400);
@@ -88,7 +91,7 @@ describe("/api/returns", () => {
   it("should return 400 if movieId is not provided", async () => {
     // token = "";
     // const token = new User().generateAuthToken();
-    token = new User().generateAuthToken();
+    // token = new User().generateAuthToken();
     movieId = "";
     const res = await exec();
 
