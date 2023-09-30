@@ -1,3 +1,4 @@
+const { Rental } = require("../models/rental");
 const express = require("express");
 const router = express.Router();
 // const { Customer } = require("../models/customer");
@@ -10,6 +11,23 @@ router.post("/", async (req, res) => {
   if (!req.body.customerId)
     return res.status(400).send("customerId not provided!");
   if (!req.body.movieId) return res.status(400).send("movieId not provided!");
+
+  // first of all, we have to find the rental for this movieId and customerId:
+  const rental = await Rental.findOne({
+    "customer._id": req.body.customerId,
+    // customerId: req.body.customerId,
+    // customer._id: req.body.customerId,
+    "movie._id": req.body.movieId,
+    // movieId: req.body.movieId,
+    // movie._id: req.body.movieId,
+  });
+
+  //   let user = await User.findOne({ email: req.body.email });
+
+  if (!rental)
+    return res
+      .status(404)
+      .send("The rental with the given customerId and movieId was not found.");
   return res.status(401).send("Unauthorized User!");
 });
 

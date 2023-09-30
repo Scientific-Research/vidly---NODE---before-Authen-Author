@@ -97,4 +97,17 @@ describe("/api/returns", () => {
 
     expect(res.status).toBe(400);
   });
+
+  // Return 404 if no rental found for this customer/movie
+  it("should return 404 if no rental found for this customer/movie", async () => {
+    // customerId = mongoose.Types.ObjectId();
+    // movieId = mongoose.Types.ObjectId();
+
+    // first of all,we have to clean the rental collection:
+    await Rental.deleteMany({});
+
+    const res = await exec();
+
+    expect(res.status).toBe(404);
+  });
 });
