@@ -28,6 +28,11 @@ router.post("/", async (req, res) => {
     return res
       .status(404)
       .send("The rental with the given customerId and movieId was not found.");
+
+  // Return 400 if return is already processed!
+  if (rental.dateReturned)
+    return res.status(400).send("Return already processed!");
+
   return res.status(401).send("Unauthorized User!");
 });
 
