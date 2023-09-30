@@ -130,4 +130,15 @@ describe("/api/returns", () => {
 
     expect(res.status).toBe(200);
   });
+
+  // set the returnDate if input is valid
+  it("should set the returnDate if input is valid!", async () => {
+    const res = await exec();
+    // rental.dateReturned = new Date();
+
+    const rentalInDb = await Rental.findById(rental._id);
+    console.log(rentalInDb);
+
+    expect(rentalInDb.dateReturned).toBeDefined();
+  });
 });
