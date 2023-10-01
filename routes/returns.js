@@ -1,5 +1,6 @@
 const moment = require("moment");
 const { Rental } = require("../models/rental");
+const { Movie } = require("../models/movie");
 const auth = require("../middleware/auth");
 const express = require("express");
 const router = express.Router();
@@ -40,10 +41,17 @@ router.post("/", auth, async (req, res) => {
   // instead of 1, we write the current date
   rental.dateReturned = new Date();
   const rentalDays = moment().diff(rental.dateOut, "days");
+  // Calculate the rental fee (numberOfDays * movie.dailyRentalRate)
   rental.rentalFee = rentalDays * rental.movie.dailyRentalRate;
   await rental.save();
 
-  // Calculate the rental fee (numberOfDays * movie.dailyRentalRate)
+  // we use the update first approach instead of query first approach to update the number of stock:
+  Movie.update(
+    { _id: rental.movie._id },
+    {
+      $inc: { numberInStock: 1 },
+    }
+  );
 
   // Return 200 if valid request
   if (rental) return res.status(200).send("the request is valid!");
