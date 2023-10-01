@@ -22,6 +22,13 @@ router.post("/", [auth, validate(validateReturn)], async (req, res) => {
   // instead of above line,we use diese lines to validate:
   //   validate();
   // first of all, we have to find the rental for this movieId and customerId:
+
+  //TODO: How to add a static method to the Rental class:
+  // Static: Rental.lookup
+  // Instance: new User().generateAuthToken()
+
+  const rental = await Rental.lookup(customerId, movieId);
+  // this is the same with botton rental using findOne()
   const rental = await Rental.findOne({
     "customer._id": req.body.customerId,
     // customerId: req.body.customerId,
