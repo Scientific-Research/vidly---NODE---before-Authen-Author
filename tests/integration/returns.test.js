@@ -217,16 +217,22 @@ describe("/api/returns", () => {
 
     const rentalInDb = await Rental.findById(rental._id);
     console.log(rentalInDb);
-    // expect(res.body).toMatchObject(rentalInDb);
-    expect(res.body).toHaveProperty("dateOut");
-    expect(res.body).toHaveProperty("dateReturned");
-    expect(res.body).toHaveProperty("rentalFee");
-    expect(res.body).toHaveProperty("customer");
-    expect(res.body).toHaveProperty("movie");
-    // const movieInDb = await Movie.findById(movieId);
-    // console.log(movieInDb);
 
-    // increase the number of stock to one!
-    // expect(movieInDb.numberInStock).toBe(movie.numberInStock + 1);
+    // expect(res.body).toHaveProperty("dateOut");
+    // expect(res.body).toHaveProperty("dateReturned");
+    // expect(res.body).toHaveProperty("rentalFee");
+    // expect(res.body).toHaveProperty("customer");
+    // expect(res.body).toHaveProperty("movie");
+
+    // or we can summerize it using the toEqual():
+    expect(Object.keys(res.body)).toEqual(
+      expect.arrayContaining([
+        "dateOut",
+        "dateReturned",
+        "rentalFee",
+        "customer",
+        "movie",
+      ])
+    );
   });
 });
