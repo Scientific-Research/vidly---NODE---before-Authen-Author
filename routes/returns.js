@@ -27,9 +27,8 @@ router.post("/", [auth, validate(validateReturn)], async (req, res) => {
   // Static: Rental.lookup
   // Instance: new User().generateAuthToken()
 
-  const rental = await Rental.lookup(customerId, movieId);
+  const rental = await Rental.lookup(req.body.customerId, req.body.movieId);
   // this is the same with botton rental using findOne()
-
 
   //   let user = await User.findOne({ email: req.body.email });
 

@@ -55,7 +55,7 @@ const rentalSchema = new mongoose.Schema({
   },
 });
 
-rentalSchema.statics.lookup = function (customerId, moveId) {
+rentalSchema.statics.lookup = function (customerId, movieId) {
   // return Rental.findOne({
   return this.findOne({
     "customer._id": req.body.customerId,
