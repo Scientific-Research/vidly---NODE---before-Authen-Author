@@ -210,4 +210,18 @@ describe("/api/returns", () => {
     // increase the number of stock to one!
     expect(movieInDb.numberInStock).toBe(movie.numberInStock + 1);
   });
+
+  // we should return the rental in the body of response:
+  it("should return the rental if input is valid", async () => {
+    const res = await exec();
+
+    const rentalInDb = await Rental.findById(rental._id);
+    console.log(rentalInDb);
+    expect(res.body).toMatchObject(rentalInDb);
+    // const movieInDb = await Movie.findById(movieId);
+    // console.log(movieInDb);
+
+    // increase the number of stock to one!
+    // expect(movieInDb.numberInStock).toBe(movie.numberInStock + 1);
+  });
 });
