@@ -1,8 +1,8 @@
 // like always we start with Test Suits => describe()
+const moment = require("moment");
 const request = require("supertest");
 const { Rental } = require("../../models/rental");
 const { User } = require("../../models/user");
-
 const mongoose = require("mongoose");
 
 describe("/api/returns", () => {
@@ -147,5 +147,40 @@ describe("/api/returns", () => {
     const diff = new Date() - rentalInDb.dateReturned; // this gives us the difference in miliseconds
     // expect(rentalInDb.dateReturned).toBeDefined();
     expect(diff).toBeLessThan(10 * 1000); // diff less than 10 seconds!
+  });
+
+  // Calculate the rental fee (numberOfDays * movie.dailyRentalRate)
+  it("should set the rentalFee if input is valid", async () => {
+    // dateOut (current time) stored by mongoose in database => default: Date.now,
+    // we have to make sure that this movie is borrowed by customer at least one day and not one second!
+    // so, we have to change it before we call the const res = await exec();
+    // for example: rental.dateOut = // 7 days ago! we can do it using moment => npm i moment
+    // we use moment to get the current date and time and at the end to convert it from
+    // a moment object to the plain Javascrip Object and dateOut is standard Date Object => we use the toDate();
+    rental.dateOut = moment().add(-7, "days").toDate();
+    // to save the rental on DB
+    await rental.save();
+
+    const res = await exec();
+    // rental.dateReturned = new Date();
+
+    const rentalInDb = await Rental.findById(rental._id);
+    console.log(rentalInDb);
+
+    // first we can set it to a generic thing: 7 days * 2 dollar for every day => we expect 14 dollar for 7 days.
+    expect(rentalInDb.rentalFee).toBe(14);
+
+    // or we can make it to something specific
+
+
+    // to optimize the code and make it more specific, we have to define it more specific, therefore,
+    // instead of 1 in   rental.dateReturned = 1; in return.js, we write the current date
+    // but at the end there is a difference between dateReturned and current date, and we have to
+    // calculate it and make sure that the diff is less than 10 seconds in the worst scenario.
+    // new Date() is current date!
+    // const diff = new Date() - rentalInDb.dateReturned; // this gives us the difference in miliseconds
+    // const rentalFee = numberOfDays * movie.dailyRentalRate;
+    // expect(rentalInDb.dateReturned).toBeDefined();
+    // expect(diff).toBeLessThan(10 * 1000); // diff less than 10 seconds!
   });
 });

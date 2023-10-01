@@ -40,6 +40,10 @@ router.post("/", auth, async (req, res) => {
   rental.dateReturned = new Date();
   await rental.save();
 
+  // Calculate the rental fee (numberOfDays * movie.dailyRentalRate)
+  
+
+
   // Return 200 if valid request
   if (rental) return res.status(200).send("the request is valid!");
 
