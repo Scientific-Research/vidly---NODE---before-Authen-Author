@@ -19,7 +19,8 @@ const validate = (validator) => {
   };
 };
 
-router.post("/", auth, async (req, res) => {
+// router.post("/", auth, async (req, res) => {
+router.post("/", [auth, validate(validateReturn)], async (req, res) => {
   //   const customer = await Customer.findById(req.body.customerId);
   //   if (!customer) return res.status(400).send("Invalid customer.");
 
