@@ -65,6 +65,7 @@ describe("/api/returns", () => {
     // and finally we have to clean up in the afterEach() as following:
     // await Rental.remove({});
     await Rental.deleteMany({});
+    await Movie.deleteMany({});
     await server.close();
   });
 
