@@ -8,6 +8,17 @@ const router = express.Router();
 // const { Customer } = require("../models/customer");
 
 // app.post("/api/returns",async(req,res)=>{})
+
+// const validate = (req, res, next) => {
+const validate = (validator) => {
+  return (req, res, next) => {
+    // const { error } = validateReturn(req.body);
+    const { error } = validator(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+    next();
+  };
+};
+
 router.post("/", auth, async (req, res) => {
   //   const customer = await Customer.findById(req.body.customerId);
   //   if (!customer) return res.status(400).send("Invalid customer.");
@@ -17,9 +28,7 @@ router.post("/", auth, async (req, res) => {
   //   if (!req.body.movieId) return res.status(400).send("movieId not provided!");
 
   // instead of above line,we use diese lines to validate:
-  const { error } = validateReturn(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+  //   validate();
   // first of all, we have to find the rental for this movieId and customerId:
   const rental = await Rental.findOne({
     "customer._id": req.body.customerId,
