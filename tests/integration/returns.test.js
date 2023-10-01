@@ -158,6 +158,10 @@ describe("/api/returns", () => {
     // we use moment to get the current date and time and at the end to convert it from
     // a moment object to the plain Javascrip Object and dateOut is standard Date Object => we use the toDate();
     rental.dateOut = moment().add(-7, "days").toDate();
+    console.log("7 days before: " + rental.dateOut);
+    // rental.dateOut = moment().add(-7, "days")
+    // console.log("7 days before without toDate(): " + rental.dateOut);
+
     // to save the rental on DB
     await rental.save();
 
@@ -171,7 +175,6 @@ describe("/api/returns", () => {
     expect(rentalInDb.rentalFee).toBe(14);
 
     // or we can make it to something specific
-
 
     // to optimize the code and make it more specific, we have to define it more specific, therefore,
     // instead of 1 in   rental.dateReturned = 1; in return.js, we write the current date
