@@ -46,7 +46,7 @@ router.post("/", auth, async (req, res) => {
   await rental.save();
 
   // we use the update first approach instead of query first approach to update the number of stock:
-  Movie.update(
+  const movie = await Movie.updateMany(
     { _id: rental.movie._id },
     {
       $inc: { numberInStock: 1 },
