@@ -9,15 +9,7 @@ const router = express.Router();
 
 // app.post("/api/returns",async(req,res)=>{})
 
-// const validate = (req, res, next) => {
-const validate = (validator) => {
-  return (req, res, next) => {
-    // const { error } = validateReturn(req.body);
-    const { error } = validator(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-    next();
-  };
-};
+
 
 // router.post("/", auth, async (req, res) => {
 router.post("/", [auth, validate(validateReturn)], async (req, res) => {
