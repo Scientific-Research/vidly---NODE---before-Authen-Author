@@ -55,6 +55,18 @@ const rentalSchema = new mongoose.Schema({
   },
 });
 
+rentalSchema.statics.lookup = function (customerId, moveId) {
+  // return Rental.findOne({
+  return this.findOne({
+    "customer._id": req.body.customerId,
+    // customerId: req.body.customerId,
+    // customer._id: req.body.customerId,
+    "movie._id": req.body.movieId,
+    // movieId: req.body.movieId,
+    // movie._id: req.body.movieId,
+  });
+};
+
 const Rental = mongoose.model("Rental", rentalSchema);
 
 function validateRental(rental) {

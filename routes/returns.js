@@ -29,14 +29,7 @@ router.post("/", [auth, validate(validateReturn)], async (req, res) => {
 
   const rental = await Rental.lookup(customerId, movieId);
   // this is the same with botton rental using findOne()
-  const rental = await Rental.findOne({
-    "customer._id": req.body.customerId,
-    // customerId: req.body.customerId,
-    // customer._id: req.body.customerId,
-    "movie._id": req.body.movieId,
-    // movieId: req.body.movieId,
-    // movie._id: req.body.movieId,
-  });
+
 
   //   let user = await User.findOne({ email: req.body.email });
 
