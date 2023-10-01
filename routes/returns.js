@@ -54,7 +54,8 @@ router.post("/", auth, async (req, res) => {
   );
 
   // Return 200 if valid request
-  if (rental) return res.status(200).send("the request is valid!");
+  //   if (rental) return res.status(200).send("the request is valid!");
+  if (rental) return res.status(200).send(rental);
 
   //  return res.status(401).send("Unauthorized User!");
 });
