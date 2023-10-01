@@ -2,6 +2,7 @@
 const moment = require("moment");
 const request = require("supertest");
 const { Rental } = require("../../models/rental");
+const { Movie } = require("../../models/movie");
 const { User } = require("../../models/user");
 const mongoose = require("mongoose");
 
@@ -10,7 +11,7 @@ describe("/api/returns", () => {
   let customerId;
   let movieId;
   let rental;
-
+  let movie;
   let token;
   //   let name;
 
@@ -30,6 +31,16 @@ describe("/api/returns", () => {
     customerId = mongoose.Types.ObjectId();
     movieId = mongoose.Types.ObjectId();
     token = new User().generateAuthToken();
+
+    // creating a movie to test the Movie Stock and then increase it for one
+    movie = new Movie({
+      _id: movieId,
+      title: "12345",
+      dailyRentalRate: 2,
+      genre: { name: "12345" },
+      numberInStock: 10,
+    });
+    await movie.save();
 
     rental = new Rental({
       // two properties
@@ -185,5 +196,17 @@ describe("/api/returns", () => {
     // const rentalFee = numberOfDays * movie.dailyRentalRate;
     // expect(rentalInDb.dateReturned).toBeDefined();
     // expect(diff).toBeLessThan(10 * 1000); // diff less than 10 seconds!
+  });
+
+  // Testing the movie Stock - we have defined the movie object above and now
+  // we want to test the Movie Stock in database by increasing it one item:
+  it("should increase the movie stock if input is valid", async () => {
+    const res = await exec();
+
+    const movieInDb = await Movie.findById(movieId);
+    console.log(movieInDb);
+
+    // increase the number of stock to one!
+    expect(movieInDb.numberInStock).toBe(movie.numberInStock + 1);
   });
 });
