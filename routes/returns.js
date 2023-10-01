@@ -1,3 +1,4 @@
+const validate = require("../middleware/validate");
 const Joi = require("joi");
 const moment = require("moment");
 const { Rental } = require("../models/rental");
@@ -8,8 +9,6 @@ const router = express.Router();
 // const { Customer } = require("../models/customer");
 
 // app.post("/api/returns",async(req,res)=>{})
-
-
 
 // router.post("/", auth, async (req, res) => {
 router.post("/", [auth, validate(validateReturn)], async (req, res) => {

@@ -1,5 +1,6 @@
 // const validate = (req, res, next) => {
-const validate = (validator) => {
+// const validate = (validator) => {
+module.exports = (validator) => {
   return (req, res, next) => {
     // const { error } = validateReturn(req.body);
     const { error } = validator(req.body);
