@@ -67,6 +67,15 @@ rentalSchema.statics.lookup = function (customerId, movieId) {
   });
 };
 
+// create an instance method: instead of using statics like above, we use the methods as following:
+rentalSchema.methods.return = function () {
+  this.dateReturned = new Date();
+
+  const rentalDays = moment().diff(this.dateOut, "days");
+  // Calculate the rental fee (numberOfDays * movie.dailyRentalRate)
+  this.rentalFee = rentalDays * this.movie.dailyRentalRate;
+};
+
 const Rental = mongoose.model("Rental", rentalSchema);
 
 function validateRental(rental) {

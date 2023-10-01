@@ -1,6 +1,5 @@
 const validate = require("../middleware/validate");
 const Joi = require("joi");
-const moment = require("moment");
 const { Rental } = require("../models/rental");
 const { Movie } = require("../models/movie");
 const auth = require("../middleware/auth");
@@ -44,10 +43,9 @@ router.post("/", [auth, validate(validateReturn)], async (req, res) => {
   // set the returnDate if input is valid
   //   rental.dateReturned = 1;
   // instead of 1, we write the current date
-  rental.dateReturned = new Date();
-  const rentalDays = moment().diff(rental.dateOut, "days");
-  // Calculate the rental fee (numberOfDays * movie.dailyRentalRate)
-  rental.rentalFee = rentalDays * rental.movie.dailyRentalRate;
+
+  // TODO: refactoring the code here:
+  rental.return();
   await rental.save();
 
   // we use the update first approach instead of query first approach to update the number of stock:
