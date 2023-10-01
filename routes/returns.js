@@ -60,4 +60,13 @@ router.post("/", auth, async (req, res) => {
   //  return res.status(401).send("Unauthorized User!");
 });
 
+function validateReturn(req) {
+  const schema = {
+    customerId: Joi.objectId().required(),
+    movieId: Joi.objectId().required(),
+  };
+
+  return Joi.validate(req, schema);
+}
+
 module.exports = router;
