@@ -1,3 +1,4 @@
+const Joi = require("joi");
 const moment = require("moment");
 const { Rental } = require("../models/rental");
 const { Movie } = require("../models/movie");
@@ -11,9 +12,13 @@ router.post("/", auth, async (req, res) => {
   //   const customer = await Customer.findById(req.body.customerId);
   //   if (!customer) return res.status(400).send("Invalid customer.");
 
-  if (!req.body.customerId)
-    return res.status(400).send("customerId not provided!");
-  if (!req.body.movieId) return res.status(400).send("movieId not provided!");
+  //   if (!req.body.customerId)
+  //     return res.status(400).send("customerId not provided!");
+  //   if (!req.body.movieId) return res.status(400).send("movieId not provided!");
+
+  // instead of above line,we use diese lines to validate:
+  const { error } = validateReturn(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
 
   // first of all, we have to find the rental for this movieId and customerId:
   const rental = await Rental.findOne({
